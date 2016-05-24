@@ -4,6 +4,8 @@ use strict;
 use warnings;
 use Carp;
 
+use version; our @VERSION = qv('0.1.0');
+
 use parent 'Exporter';
 use File::Copy ();
 use File::Spec::Functions qw(splitpath catpath catfile);
@@ -127,16 +129,66 @@ sub switch_off_buffering {
 
 1;
 
+=encoding utf8
+
 =head1 NAME
 
-File::Copy::NoClobber - Rename copied files safely if destionation exists
+L<File::Copy::NoClobber> - Rename copied files safely if destionation exists
 
 =head1 SYNOPSIS
 
+    use File::Copy::NoClobber;
 
+    copy( "file.txt", "elsewhere/" ); # elsewhere/file.txt
+    copy( "file.txt", "elsewhere/" ); # elsewhere/file (01).txt
+
+    # similar with move
+    move( "file.txt", "elsewhere/" ); # elsewhere/file (02).txt
 
 =head1 DESCRIPTION
 
+The module exports copy() and move(). They are wrappers around C<copy>
+and C<move> in L<File::Copy>.
+
+=head1 INTERFACE
+
+=head2 copy( $from, $to [, $buffersize] )
+
+Supportes the same arguments as L<File::Copy>.
+
+Checks if the operation would overwrite an existing file, if so adds a
+counter to the destionation filename as shown in the SYNOPSIS.
+
+The module uses sysopen with O_EXCL and an increasing counter to
+determine a working filename. The second argument is then replaced
+with this filehandle and passed to C<File::Copy::copy>.
+
+=head2 move( $from, $to, $buffersize )
+
+Supportes the same arguments as L<File::Copy>.
+
+Determines destination filename in the same way as C<copy>, but the
+move operation is used on the filename rather than the filehandle, to
+allow rename to be used.
+
+=head1 DEPENDENCIES
+
+This module does not introduce dependencies. It does not use modules
+not already in use in File::Copy.
+
+=head1 AUTHOR
+
+Torbjørn Lindahl C<< torbjorn.lindahl@gmail.com >>
+
+=head1 LICENCE AND COPYRIGHT
+
+Copyright (c) 2016, Torbjørn Lindahl C<<torbjorn.lindahl@gmail.com>>. 
+All rights reserved.
+
+This module is free software; you can redistribute it and/or modify it
+under the same terms as Perl itself. See L<perlartistic>.
 
 
-=cut
+
+
+
