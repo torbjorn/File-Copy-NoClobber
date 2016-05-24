@@ -21,11 +21,11 @@ sub copy {
 
     my($from,$to,$buffersize) = @args;
 
-    if ( -d $to and ref $from ne "GLOB" ) {
+    my(undef,undef,$from_bn) = splitpath( $from );
+    my $dest_file = -d $to ? catfile( $to, $from_bn ) : $to;
 
-        my(undef,undef,$from_bn) = splitpath( $from );
+    if ( -f $from and ref $to ne "GLOB" ) {
 
-        my $dest_file = catfile( $to, $from_bn );
         my $opened = sysopen my $fh, $dest_file, O_EXCL|O_CREAT;
 
         my $count = 0;
@@ -35,8 +35,8 @@ sub copy {
 
             $opened = sysopen
                 $fh,
-                sprintf( $fp, ++$count ),
-                O_EXCL;
+                ($dest_file = sprintf( $fp, ++$count )),
+                O_CREAT|O_EXCL;
 
             if ($count > $MAX_COUNT) {
                 die "Failed to find a nonclobbering filename, tried to increment counter $MAX_COUNT times: $!";
@@ -51,7 +51,9 @@ sub copy {
 
     }
 
-    File::Copy::copy(@args);
+    my $r = File::Copy::copy(@args) && $dest_file;
+
+    # print "# ", fcntl( $args[1], F_GETFL, 0 ) , "\n";
 
 }
 
@@ -67,8 +69,10 @@ sub filename_with_sprintf_pattern {
 
     if ( $fn =~ /\./ ) {
         $fn =~
+
             s{    (?= \. [^\.]+ $ )   }
-             {  $pattern   }ex
+             {        $pattern        }ex
+
             or die "Failed inserting noclobbering pattern into file";
     }
     else {

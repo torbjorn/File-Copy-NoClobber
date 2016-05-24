@@ -16,7 +16,7 @@ use t::lib::TestUtils;
 my $d1 = testdir;
 my $d2 = testdir;
 
-my ($fh1,$fn1) = testfile($d1);
+my ($fh1,$fn1) = testfile($d1, SUFFIX => ".txt");
 
 print $fh1 "Some content to go in the file\n";
 
@@ -28,9 +28,9 @@ cmp_ok
 
 copy $fn1, $d2;
 
-print $fh1 "More content to make the files different\n";
+# print $fh1 "More content to make the files different\n";
 
-cmp_ok -s $fn1, ">", $s1, "test file has more content";
+# cmp_ok -s $fn1, ">", $s1, "test file has more content";
 
 # my $dest_file = copy $fn1, $d2;
 
