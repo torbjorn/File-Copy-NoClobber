@@ -17,12 +17,43 @@ our @EXPORT = qw(copy move);
 my $pattern = " (%02d)";
 my $MAX_COUNT = 1e4;
 
+my $WarnNewFile = 0;
+
+sub import {
+
+    my $pkg = shift;
+
+    my %args = @_;
+
+    if ( exists $args{-warn} ) {
+        $WarnNewFile = delete $args{-warn};
+    }
+
+    $pattern = delete $args{-pattern} // $pattern;
+    _check_pattern($pattern);
+
+    @_ = %args;
+
+    __PACKAGE__->export_to_level( 1, $pkg, @_ );
+
+}
+
+sub _check_pattern {
+
+    my $ptn = shift;
+
+    if ( sprintf($ptn,1) eq sprintf($ptn,2) ) {
+        croak "Invalid noclobber pattern '$pattern'";
+    }
+
+}
+
 sub _declobber {
 
     my($from,$to) = @_;
 
     my $from_bn = basename $from;
-    my $dest_file = -d $to ? catfile( $to, $from_bn ) : $to;
+    my $orig_dest_file = my $dest_file = -d $to ? catfile( $to, $from_bn ) : $to;
 
     my $fh;
 
@@ -75,6 +106,10 @@ sub _declobber {
         binmode $fh;
         switch_off_buffering($fh);
 
+    }
+
+    if ($dest_file ne $orig_dest_file and $WarnNewFile) {
+        carp "Destionation changed to " . basename $dest_file;
     }
 
     return ($fh,$dest_file);
@@ -177,6 +212,8 @@ determine a working filename. The second argument is then replaced
 with this filehandle and passed to C<File::Copy::copy>.
 
 The counter inserted to filenames is currently hardcoded to C<" (%02d)">.
+
+It returns the filename written to or undef if unsuccesful.
 
 =head2 move( $from, $to )
 
