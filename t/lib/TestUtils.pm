@@ -17,7 +17,7 @@ sub testfile {
     my $dir = shift;
     $dir //= tempdir;
 
-    my @f = tempfile( @_, DIR => $dir );
+    my @f = tempfile( @_, DIR => $dir, UNLINK => 1 );
 
     do {
         my $h = select $f[0];
