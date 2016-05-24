@@ -84,7 +84,7 @@ sub _declobber {
         my $count = 0;
         my $fp = filename_with_sprintf_pattern( $dest_file );
 
-        while (not $opened and $! =~ /File exists/i ) {
+        while (not $opened and $!{EEXIST} ) {
 
             $opened = eval {
                 sysopen
