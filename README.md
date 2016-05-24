@@ -49,6 +49,10 @@ not already in use in File::Copy.
 
 Torbjørn Lindahl `torbjorn.lindahl@gmail.com`
 
+# CONTRIBUTORS
+
+Core ideas from _Botje_, _huf_ and _tm604_ in #perl@freenode
+
 # LICENCE AND COPYRIGHT
 
 Copyright (c) 2016, Torbjørn Lindahl `torbjorn.lindahl@gmail.com`.
