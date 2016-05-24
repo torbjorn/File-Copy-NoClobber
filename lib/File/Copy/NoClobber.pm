@@ -7,13 +7,14 @@ use Carp;
 use parent 'Exporter';
 use File::Copy ();
 use File::Spec::Functions qw(splitpath catpath catfile);
+use File::Basename qw(basename);
 use Fcntl;
 
 our @EXPORT = qw(copy move);
 our @EXPORT_OK = qw(cp mv);
 
 my $pattern = " (%02d)";
-my $MAX_COUNT = 5;
+my $MAX_COUNT = 1e4;
 
 sub copy {
 
@@ -21,12 +22,12 @@ sub copy {
 
     my($from,$to,$buffersize) = @args;
 
-    my(undef,undef,$from_bn) = splitpath( $from );
+    my $from_bn = basename $from;
     my $dest_file = -d $to ? catfile( $to, $from_bn ) : $to;
 
     if ( -f $from and ref $to ne "GLOB" ) {
 
-        my $dest_file = catfile( $to, $from_bn );
+        $dest_file = catfile( $to, $from_bn );
         my $opened = sysopen my $fh, $dest_file, O_EXCL|O_CREAT|O_WRONLY;
 
         my $count = 0;
