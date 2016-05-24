@@ -26,7 +26,7 @@ sub copy {
         my(undef,undef,$from_bn) = splitpath( $from );
 
         my $dest_file = catfile( $to, $from_bn );
-        my $opened = sysopen my $fh, $dest_file, O_EXCL|O_CREAT;
+        my $opened = sysopen my $fh, $dest_file, O_EXCL|O_CREAT|O_WRONLY;
 
         my $count = 0;
         my $fp = filename_with_sprintf_pattern( $dest_file );
