@@ -17,11 +17,17 @@ my $d1 = testdir;
 my $d2 = testdir;
 
 my ($fh1,$fn1) = testfile($d1);
+
 print $fh1 "some content\n";
 
-move( $fn1, $d2 );
+ok !-e catfile( $d2, basename $fn1 ),
+    "at first the destination file does not exist";
 
-ok !-e $fn1, "after move, source is gone";
-ok -s catfile($d2, basename $fn1), "and target exists and has size";
+copy $fn1, $d2;
+
+ok -s catfile( $d2, basename $fn1 ),
+    "but after copy destionation file exists and has size";
+
+ok -s $fn1, "and source file still exists in source directory";
 
 done_testing;

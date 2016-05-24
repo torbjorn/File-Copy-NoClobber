@@ -7,14 +7,64 @@ use Carp;
 use parent 'Exporter';
 use File::Copy ();
 use File::Spec::Functions qw(splitpath catpath catfile);
-use File::Basename qw(basename);
+use File::Basename qw(basename dirname);
 use Fcntl;
 
 our @EXPORT = qw(copy move);
-our @EXPORT_OK = qw(cp mv);
 
 my $pattern = " (%02d)";
 my $MAX_COUNT = 1e4;
+
+sub _declobber {
+
+    my($from,$to) = @_;
+
+    my $from_bn = basename $from;
+    my $dest_file = -d $to ? catfile( $to, $from_bn ) : $to;
+
+    my $fh;
+
+    if ( -f $from and ref $to ne "GLOB" ) {
+
+        if ( !-d dirname $to ) {
+            croak "Invalid destination, should be in an existing directory";
+        }
+
+        # use eval in case autodie or friends get in here
+        my $opened = eval {
+            sysopen $fh, $dest_file, O_EXCL|O_CREAT|O_WRONLY;
+        };
+
+        my $count = 0;
+        my $fp = filename_with_sprintf_pattern( $dest_file );
+
+        while (not $opened and $! =~ /File exists/i ) {
+
+            $opened = eval {
+                sysopen
+                    $fh,
+                    ($dest_file = sprintf( $fp, ++$count )),
+                    O_CREAT|O_EXCL|O_WRONLY;
+            };
+
+            if ($count > $MAX_COUNT) {
+                croak "Failed to find a nonclobbering filename, tried to increment counter $MAX_COUNT times";
+            }
+
+        }
+
+        if (not fileno $fh) {
+            croak $!;
+        }
+
+        binmode $fh;
+        switch_off_buffering($fh);
+
+    }
+
+    return ($fh,$dest_file);
+
+}
 
 sub copy {
 
@@ -22,36 +72,9 @@ sub copy {
 
     my($from,$to,$buffersize) = @args;
 
-    my $from_bn = basename $from;
-    my $dest_file = -d $to ? catfile( $to, $from_bn ) : $to;
+    my($fh,$dest_file) = _declobber($from,$to);
 
-    if ( -f $from and ref $to ne "GLOB" ) {
-
-        $dest_file = catfile( $to, $from_bn );
-        my $opened = sysopen my $fh, $dest_file, O_EXCL|O_CREAT|O_WRONLY;
-
-        my $count = 0;
-        my $fp = filename_with_sprintf_pattern( $dest_file );
-
-        while (not $opened ) {
-
-            $opened = sysopen
-                $fh,
-                ($dest_file = sprintf( $fp, ++$count )),
-                O_CREAT|O_EXCL|O_WRONLY;
-
-            if ($count > $MAX_COUNT) {
-                die "Failed to find a nonclobbering filename, tried to increment counter $MAX_COUNT times: $!";
-            }
-
-        }
-
-        binmode $fh;
-        switch_off_buffering($fh);
-
-        $args[1] = $fh;
-
-    }
+    $args[1] = $fh // $dest_file;
 
     # return destination filename, as it may be altered
     return File::Copy::copy(@args) && $dest_file;
@@ -59,7 +82,19 @@ sub copy {
 }
 
 sub move {
-    File::Copy::move(@_);
+
+    my @args = @_;
+
+    my($from,$to,$buffersize) = @args;
+
+    my($fh,$dest_file) = _declobber($from,$to);
+    close $fh;
+
+    $args[1] = $dest_file;
+
+    # return destination filename, as it may be altered
+    return File::Copy::move(@args) && $dest_file;
+
 }
 
 sub filename_with_sprintf_pattern {

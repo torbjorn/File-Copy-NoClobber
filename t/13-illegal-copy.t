@@ -14,7 +14,7 @@ my($fh,$fn) = testfile;
 my $nonsense_dir = "/foo/bar/baz/" . rand;
 
 throws_ok { copy $fn, $nonsense_dir}
-    qr/No such file or directory/,
+    qr/Invalid destination/,
     "illegal copy throws as expceted";
 
 done_testing;
