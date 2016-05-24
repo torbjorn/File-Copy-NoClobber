@@ -26,6 +26,19 @@ sub _declobber {
 
     my $fh;
 
+    my $write_test = 1;
+
+    if ( -d $to ) {
+        $write_test = -w $to;
+    }
+    elsif ( -f $to ) {
+        $write_test = -w dirname $to;
+    }
+
+    if ( not $write_test ) {
+        croak "Destination is not writable";
+    }
+
     if ( -f $from and ref $to ne "GLOB" ) {
 
         if ( !-d dirname $to ) {
