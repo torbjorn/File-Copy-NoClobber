@@ -34,7 +34,8 @@ The module uses sysopen with O\_EXCL and an increasing counter to
 determine a working filename. The second argument is then replaced
 with this filehandle and passed to `File::Copy::copy`.
 
-The counter inserted to filenames is currently hardcoded to `" (%02d)"`.
+The counter inserted to filenames is `" (%02d)"` by default, but can
+be changed on import.
 
 It returns the filename written to or undef if unsuccesful.
 
