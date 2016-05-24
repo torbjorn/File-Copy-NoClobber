@@ -193,6 +193,10 @@ File::Copy::NoClobber - Rename copied files safely if destionation exists
     # similar with move
     move( "file.txt", "elsewhere/" ); # elsewhere/file (02).txt
 
+    use File::Copy::NoClobber -warn => 1; # warns when name is changed
+
+    use File::Copy::NoClobber -pattern => "[%04d]" # custom nocobbler
+
 =head1 DESCRIPTION
 
 The module exports copy() and move(). They are wrappers around C<copy>
