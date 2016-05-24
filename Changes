@@ -1,5 +1,10 @@
 Revision history for perl module File::Copy::NoClobber
 
+0.2.0 2016-05-24
+
+    * updated pod
+    * fixed issue rt-114658
+
 0.1.0 2016-05-24
 
     * Initial Release
