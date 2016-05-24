@@ -163,6 +163,8 @@ The module uses sysopen with O_EXCL and an increasing counter to
 determine a working filename. The second argument is then replaced
 with this filehandle and passed to C<File::Copy::copy>.
 
+The counter inserted to filenames is currently hardcoded to C<" (%02d)">.
+
 =head2 move( $from, $to )
 
 Supportes the same arguments as L<File::Copy>.
@@ -179,6 +181,10 @@ not already in use in File::Copy.
 =head1 AUTHOR
 
 Torbjørn Lindahl C<< torbjorn.lindahl@gmail.com >>
+
+=head1 CONTRIBUTORS
+
+Core ideas from I<Botje>, I<huf> and I<tm604> in #perl@freenode
 
 =head1 LICENCE AND COPYRIGHT
 
