@@ -13,5 +13,9 @@ t/12-file-without-suffix.t
 t/13-illegal-copy.t
 t/14-move-plain.t
 t/15-move-with-rename.t
+t/16-copy-to-nonwritable.t
+t/17-custom-pattern.t
+t/18-warn-on-new.t
+t/80-rt-114658-dont-check-error-string-value.t
 t/lib/TestUtils.pm
 LICENSE
