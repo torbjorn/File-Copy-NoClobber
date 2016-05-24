@@ -52,9 +52,8 @@ sub copy {
 
     }
 
-    my $r = File::Copy::copy(@args) && $dest_file;
-
-    # print "# ", fcntl( $args[1], F_GETFL, 0 ) , "\n";
+    # return destination filename, as it may be altered
+    return File::Copy::copy(@args) && $dest_file;
 
 }
 
