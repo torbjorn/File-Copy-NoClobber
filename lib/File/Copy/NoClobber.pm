@@ -163,7 +163,7 @@ The module uses sysopen with O_EXCL and an increasing counter to
 determine a working filename. The second argument is then replaced
 with this filehandle and passed to C<File::Copy::copy>.
 
-=head2 move( $from, $to, $buffersize )
+=head2 move( $from, $to )
 
 Supportes the same arguments as L<File::Copy>.
 
