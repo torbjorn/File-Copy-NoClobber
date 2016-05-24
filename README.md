@@ -30,6 +30,8 @@ The module uses sysopen with O\_EXCL and an increasing counter to
 determine a working filename. The second argument is then replaced
 with this filehandle and passed to `File::Copy::copy`.
 
+The counter inserted to filenames is currently hardcoded to `" (%02d)"`.
+
 ## move( $from, $to )
 
 Supportes the same arguments as [File::Copy](https://metacpan.org/pod/File::Copy).
