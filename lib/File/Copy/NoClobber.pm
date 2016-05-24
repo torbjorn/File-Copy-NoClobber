@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use Carp;
 
-use version; our @VERSION = qv('0.1.0');
+our $VERSION = '0.1.0';
 
 use parent 'Exporter';
 use File::Copy ();
@@ -133,7 +133,7 @@ sub switch_off_buffering {
 
 =head1 NAME
 
-L<File::Copy::NoClobber> - Rename copied files safely if destionation exists
+File::Copy::NoClobber - Rename copied files safely if destionation exists
 
 =head1 SYNOPSIS
 
@@ -182,13 +182,8 @@ Torbjørn Lindahl C<< torbjorn.lindahl@gmail.com >>
 
 =head1 LICENCE AND COPYRIGHT
 
-Copyright (c) 2016, Torbjørn Lindahl C<<torbjorn.lindahl@gmail.com>>. 
+Copyright (c) 2016, Torbjørn Lindahl C<< torbjorn.lindahl@gmail.com >>.
 All rights reserved.
 
 This module is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself. See L<perlartistic>.
-
-
-
-
-
