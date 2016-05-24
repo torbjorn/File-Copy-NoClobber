@@ -195,7 +195,7 @@ File::Copy::NoClobber - Rename copied files safely if destionation exists
 
     use File::Copy::NoClobber -warn => 1; # warns when name is changed
 
-    use File::Copy::NoClobber -pattern => "[%04d]" # custom nocobbler
+    use File::Copy::NoClobber -pattern => "[%04d]" # custom noclobber
 
 =head1 DESCRIPTION
 

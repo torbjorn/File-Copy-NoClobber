@@ -12,6 +12,10 @@ File::Copy::NoClobber - Rename copied files safely if destionation exists
     # similar with move
     move( "file.txt", "elsewhere/" ); # elsewhere/file (02).txt
 
+    use File::Copy::NoClobber -warn => 1; # warns when name is changed
+
+    use File::Copy::NoClobber -pattern => "[%04d]" # custom noclobber
+
 # DESCRIPTION
 
 The module exports copy() and move(). They are wrappers around `copy`
@@ -31,6 +35,8 @@ determine a working filename. The second argument is then replaced
 with this filehandle and passed to `File::Copy::copy`.
 
 The counter inserted to filenames is currently hardcoded to `" (%02d)"`.
+
+It returns the filename written to or undef if unsuccesful.
 
 ## move( $from, $to )
 
