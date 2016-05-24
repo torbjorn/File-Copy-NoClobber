@@ -37,7 +37,7 @@ sub copy {
             $opened = sysopen
                 $fh,
                 ($dest_file = sprintf( $fp, ++$count )),
-                O_CREAT|O_EXCL;
+                O_CREAT|O_EXCL|O_WRONLY;
 
             if ($count > $MAX_COUNT) {
                 die "Failed to find a nonclobbering filename, tried to increment counter $MAX_COUNT times: $!";
