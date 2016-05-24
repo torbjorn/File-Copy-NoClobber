@@ -1,6 +1,6 @@
 # NAME
 
-[File::Copy::NoClobber](https://metacpan.org/pod/File::Copy::NoClobber) - Rename copied files safely if destionation exists
+File::Copy::NoClobber - Rename copied files safely if destionation exists
 
 # SYNOPSIS
 
@@ -21,6 +21,8 @@ and `move` in [File::Copy](https://metacpan.org/pod/File::Copy).
 
 ## copy( $from, $to \[, $buffersize\] )
 
+Supportes the same arguments as [File::Copy](https://metacpan.org/pod/File::Copy).
+
 Checks if the operation would overwrite an existing file, if so adds a
 counter to the destionation filename as shown in the SYNOPSIS.
 
@@ -28,7 +30,9 @@ The module uses sysopen with O\_EXCL and an increasing counter to
 determine a working filename. The second argument is then replaced
 with this filehandle and passed to `File::Copy::copy`.
 
-## move( $from, $to, $buffersize )
+## move( $from, $to )
+
+Supportes the same arguments as [File::Copy](https://metacpan.org/pod/File::Copy).
 
 Determines destination filename in the same way as `copy`, but the
 move operation is used on the filename rather than the filehandle, to
@@ -45,7 +49,7 @@ Torbjørn Lindahl `torbjorn.lindahl@gmail.com`
 
 # LICENCE AND COPYRIGHT
 
-Copyright (c) 2016, Torbjørn Lindahl `<torbjorn.lindahl@gmail.com`>. 
+Copyright (c) 2016, Torbjørn Lindahl `torbjorn.lindahl@gmail.com`.
 All rights reserved.
 
 This module is free software; you can redistribute it and/or modify it
