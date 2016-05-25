@@ -1,5 +1,8 @@
 Revision history for perl module File::Copy::NoClobber
 
+0.2.1 2016-05-25
+    * took out undeclared unused dependency in a test
+
 0.2.0 2016-05-24
 
     * updated pod
