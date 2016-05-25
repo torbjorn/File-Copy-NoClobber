@@ -25,7 +25,7 @@ ok !-e catfile( $d2, basename $fn1 ),
 copy $fn1, $d2;
 
 ok -s catfile( $d2, basename $fn1 ),
-    "but after copy destionation file exists and has size";
+    "but after copy destination file exists and has size";
 
 ok -s $fn1, "and source file still exists in source directory";
 

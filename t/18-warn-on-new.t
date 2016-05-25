@@ -23,7 +23,7 @@ warning_is { copy $fn1, $d2 } undef,
     "no warning if name not changed";
 
 warning_like { copy $fn1, $d2 }
-    qr/Destionation changed to/,
+    qr/Destination changed to/,
     "warns if filename is changed";
 
 done_testing;
