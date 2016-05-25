@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use Carp;
 
-our $VERSION = '0.2.1';
+our $VERSION = '0.2.2';
 
 use parent 'Exporter';
 use File::Copy ();
@@ -109,7 +109,7 @@ sub _declobber {
     }
 
     if ($dest_file ne $orig_dest_file and $WarnNewFile) {
-        carp "Destionation changed to " . basename $dest_file;
+        carp "Destination changed to " . basename $dest_file;
     }
 
     return ($fh,$dest_file);
@@ -181,7 +181,7 @@ sub switch_off_buffering {
 
 =head1 NAME
 
-File::Copy::NoClobber - Rename copied files safely if destionation exists
+File::Copy::NoClobber - Rename copied files safely if destination exists
 
 =head1 SYNOPSIS
 
@@ -206,10 +206,10 @@ and C<move> in L<File::Copy>.
 
 =head2 copy( $from, $to [, $buffersize] )
 
-Supportes the same arguments as L<File::Copy>.
+Supports the same arguments as L<File::Copy>.
 
 Checks if the operation would overwrite an existing file, if so adds a
-counter to the destionation filename as shown in the SYNOPSIS.
+counter to the destination filename as shown in the SYNOPSIS.
 
 The module uses sysopen with O_EXCL and an increasing counter to
 determine a working filename. The second argument is then replaced
@@ -218,11 +218,11 @@ with this filehandle and passed to C<File::Copy::copy>.
 The counter inserted to filenames is C<" (%02d)"> by default, but can
 be changed on import.
 
-It returns the filename written to or undef if unsuccesful.
+It returns the filename written to or undef if unsuccessful.
 
 =head2 move( $from, $to )
 
-Supportes the same arguments as L<File::Copy>.
+Supports the same arguments as L<File::Copy>.
 
 Determines destination filename in the same way as C<copy>, but the
 move operation is used on the filename rather than the filehandle, to
@@ -241,7 +241,7 @@ Torbjørn Lindahl C<< torbjorn.lindahl@gmail.com >>
 
 Core ideas from I<Botje>, I<huf> and I<tm604> in #perl@freenode
 
-=head1 LICENCE AND COPYRIGHT
+=head1 LICENSE AND COPYRIGHT
 
 Copyright (c) 2016, Torbjørn Lindahl C<< torbjorn.lindahl@gmail.com >>.
 All rights reserved.
