@@ -11,7 +11,8 @@ WriteMakefile
     ABSTRACT_FROM => 'lib/File/Copy/NoClobber.pm',
     PREREQ_PM => {
         "Test::Most" => 0,
-        "Test::Warnings" => 0
+        "Test::Warnings" => 0,
+        "autodie" => 0,
     },
     dist                => { COMPRESS => 'gzip -9f', SUFFIX => 'gz', },
     clean               => { FILES => '<DISTRO>-*' },
