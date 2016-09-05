@@ -9,7 +9,7 @@ use File::Copy::NoClobber;
 
 SKIP: {
 
-    skip "/ isn't a dir", 1, unless -d "/";
+    skip "/ isn't a dir or we're on windows", 1, if !-d "/" or $^O =~/win/i;
 
     throws_ok { copy("something", "/") }
         qr/Destination.*not writable/,
