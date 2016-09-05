@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use Carp;
 
-our $VERSION = '0.2.2';
+our $VERSION = '0.2.3';
 
 use parent 'Exporter';
 use File::Copy ();
