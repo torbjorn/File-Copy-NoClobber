@@ -15,9 +15,16 @@ sub testdir {
 sub testfile {
 
     my $dir = shift;
-    $dir //= tempdir;
+    $dir //= testdir;
 
-    my @f = tempfile( @_, DIR => $dir, UNLINK => 1 );
+    # allow defaults to be overridden
+    my %args = (
+        UNLINK => 1,
+        @_
+    );
+    $args{DIR} = $dir;
+
+    my @f = tempfile( @_, %args);
 
     do {
         my $h = select $f[0];
