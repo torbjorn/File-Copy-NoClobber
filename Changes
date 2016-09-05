@@ -1,5 +1,8 @@
 Revision history for perl module File::Copy::NoClobber
 
+0.2.3 2016-09-05
+    * fixed test errors on windows
+
 0.2.2 2016-05-25
     * fixed several spelling errors
 
